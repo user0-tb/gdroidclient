@@ -35,5 +35,5 @@
     <string name="action_install">安裝</string>
     <string name="action_upgrade">升級</string>
     <string name="action_launch">開啟</string>
-    <string name="system_install_denied_permissions">套件尚未得到系統權限！
+    <string name="system_install_denied_permissions">套件尚未得到系統權限！</string>
 </resources>

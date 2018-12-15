@@ -34,5 +34,5 @@
     <string name="action_install">Instaliraj</string>
     <string name="action_upgrade">Nadogradi</string>
     <string name="action_launch">Pokreni</string>
-    <string name="system_install_denied_permissions">Proširenju nisu dodjeljene privilegirane ovlasti! Molimo stvorite
+    <string name="system_install_denied_permissions">Proširenju nisu dodjeljene privilegirane ovlasti! Molimo stvorite</string>
 </resources>

@@ -37,5 +37,5 @@
     <string name="action_install">Installer</string>
     <string name="action_upgrade">Opgrader</string>
     <string name="action_launch">Kør</string>
-    <string name="system_install_denied_permissions">De privilegerede tilladelser er ikke blevet givet til udvidelsen!
+    <string name="system_install_denied_permissions">De privilegerede tilladelser er ikke blevet givet til udvidelsen!</string>
 </resources>

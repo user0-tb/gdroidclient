@@ -330,15 +330,14 @@ public class PrivilegedInstaller //extends Installer
         return IS_EXTENSION_INSTALLED_YES;
     }
 
-//    /**
-//     * Extension has privileged permissions and preference is enabled?
-//     */
-//    public static boolean isDefault(Context context) {
-//        return Preferences.get().isPrivilegedInstallerEnabled()
-//                && isExtensionInstalledCorrectly(context) == IS_EXTENSION_INSTALLED_YES;
-//    }
+    /**
+     * Extension has privileged permissions and preference is enabled?
+     */
+    public static boolean isDefault(Context context) {
+        return isExtensionInstalledCorrectly(context) == IS_EXTENSION_INSTALLED_YES;
+    }
 
-    protected void installPackageInternal(final Uri localApkUri, final Uri downloadUri) {
+    public void installPackageInternal(final Uri localApkUri, final Uri downloadUri) {
         ServiceConnection mServiceConnection = new ServiceConnection() {
             public void onServiceConnected(ComponentName name, IBinder service) {
                 IPrivilegedService privService = IPrivilegedService.Stub.asInterface(service);

@@ -38,5 +38,5 @@
     <string name="action_install">Zainstaluj</string>
     <string name="action_upgrade">Zaktualizuj</string>
     <string name="action_launch">Uruchom</string>
-    <string name="system_install_denied_permissions">Uprzywilejowanemu dodatkowi nie zostały przyznane wymagane
+    <string name="system_install_denied_permissions">Uprzywilejowanemu dodatkowi nie zostały przyznane wymagane</string>
 </resources>

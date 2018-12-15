@@ -38,5 +38,5 @@
     <string name="action_install">Усталяваць</string>
     <string name="action_upgrade">Абнавіць</string>
     <string name="action_launch">Запусціць</string>
-    <string name="system_install_denied_permissions">Прывілеяваныя дазволы не былі нададзены дадатаку! Калі ласка,
+    <string name="system_install_denied_permissions">Прывілеяваныя дазволы не былі нададзены дадатаку! Калі ласка,</string>
 </resources>

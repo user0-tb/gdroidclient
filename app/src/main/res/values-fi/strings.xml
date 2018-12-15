@@ -38,5 +38,5 @@
     <string name="action_install">Asenna</string>
     <string name="action_upgrade">Päivitä</string>
     <string name="action_launch">Suorita</string>
-    <string name="system_install_denied_permissions">Laajennukselle ei ole myönnetty etuoikeutettuja käyttöoikeuksia!
+    <string name="system_install_denied_permissions">Laajennukselle ei ole myönnetty etuoikeutettuja käyttöoikeuksia!</string>
 </resources>

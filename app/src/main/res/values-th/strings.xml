@@ -34,5 +34,5 @@
     <string name="action_install">ติดตั้ง</string>
     <string name="action_upgrade">อัพเกรด</string>
     <string name="action_launch">เริ่มโปรแกรม</string>
-    <string name="system_install_denied_permissions">ส่วนขยายช่วยติดตั้งทำงาน
+    <string name="system_install_denied_permissions">ส่วนขยายช่วยติดตั้งทำงาน</string>
 </resources>

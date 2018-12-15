@@ -38,5 +38,5 @@
     <string name="action_install">Pasang</string>
     <string name="action_upgrade">Tingkatkan</string>
     <string name="action_launch">Jalankan</string>
-    <string name="system_install_denied_permissions">Izin istimewa belum diberikan ke ekstensi! Harap buat laporan
+    <string name="system_install_denied_permissions">Izin istimewa belum diberikan ke ekstensi! Harap buat laporan</string>
 </resources>

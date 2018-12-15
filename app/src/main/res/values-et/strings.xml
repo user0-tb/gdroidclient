@@ -38,5 +38,5 @@
     <string name="action_install">Paigalda</string>
     <string name="action_upgrade">Uuenda</string>
     <string name="action_launch">Käivita</string>
-    <string name="system_install_denied_permissions">Laiendusele ei ole antud priviligeeritud õiguseid! Palun saada
+    <string name="system_install_denied_permissions">Laiendusele ei ole antud priviligeeritud õiguseid! Palun saada</string>
 </resources>

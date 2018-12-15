@@ -35,5 +35,5 @@
     <string name="action_install">Inštalovať</string>
     <string name="action_upgrade">Inovovať</string>
     <string name="action_launch">Spustiť</string>
-    <string name="system_install_denied_permissions">Oprávnené povolenia neboli rozšíreniu udelené! Prosím vytvorte
+    <string name="system_install_denied_permissions">Oprávnené povolenia neboli rozšíreniu udelené! Prosím vytvorte</string>
 </resources>

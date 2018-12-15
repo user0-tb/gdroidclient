@@ -37,5 +37,5 @@
     <string name="action_install">Instalar</string>
     <string name="action_upgrade">Actualizar</string>
     <string name="action_launch">Executar</string>
-    <string name="system_install_denied_permissions">Os permisos con privilexios non foron garantizados para a
+    <string name="system_install_denied_permissions">Os permisos con privilexios non foron garantizados para a</string>
 </resources>

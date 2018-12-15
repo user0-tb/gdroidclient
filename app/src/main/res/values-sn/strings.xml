@@ -34,5 +34,5 @@
     <string name="action_install">Vakirira</string>
     <string name="action_upgrade">Kwidziridza</string>
     <string name="action_launch">Ita</string>
-    <string name="system_install_denied_permissions">Mibvumo ine tambanudzo haina kupihwa kuchihesvuro! Chikumbiro, sika
+    <string name="system_install_denied_permissions">Mibvumo ine tambanudzo haina kupihwa kuchihesvuro! Chikumbiro, sika</string>
 </resources>

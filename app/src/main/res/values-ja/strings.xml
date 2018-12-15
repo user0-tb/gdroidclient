@@ -38,4 +38,5 @@
     <string name="action_install">インストール</string>
     <string name="action_upgrade">アップグレード</string>
     <string name="action_launch">開く</string>
+    <string name="system_install_denied_permissions">特権が拡張機能に付与されていません！バグレポートを送ってください！</string>
 </resources>

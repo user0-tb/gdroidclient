@@ -38,4 +38,5 @@
     <string name="action_install">Instalează</string>
     <string name="action_upgrade">Actualizează</string>
     <string name="action_launch">Porneste</string>
+    <string name="system_install_denied_permissions">Nu au fost date permisiuni privilegiate extensiei! Vă rugăm să creeați un raport de eroare!</string>
 </resources>

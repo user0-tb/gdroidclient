@@ -38,4 +38,5 @@
     <string name="action_install">Kur</string>
     <string name="action_upgrade">Yükselt</string>
     <string name="action_launch">Çalıştır</string>
+    <string name="system_install_denied_permissions">Uzantıya ayrıcalıklı izinler verilmemiştir! Lütfen bir hata bildirimi oluşturun!</string>
 </resources>

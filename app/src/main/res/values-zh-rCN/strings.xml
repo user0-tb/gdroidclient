@@ -38,4 +38,5 @@
     <string name="action_install">安装</string>
     <string name="action_upgrade">更新</string>
     <string name="action_launch">运行</string>
+    <string name="system_install_denied_permissions">该扩展没有获得超级权限！请报BUG！</string>
 </resources>

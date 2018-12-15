@@ -38,4 +38,5 @@
     <string name="action_install">Telepítés</string>
     <string name="action_upgrade">Frissítés</string>
     <string name="action_launch">Indítás</string>
+    <string name="system_install_denied_permissions">A privilegizált engedélyek nem lettek megadva ehhez a kiterjesztéshez! Küldjön be hibajelentést!</string>
 </resources>

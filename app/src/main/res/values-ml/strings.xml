@@ -35,4 +35,5 @@
     <string name="action_install">സ്ഥാപിക്കുക</string>
     <string name="action_upgrade">പുതുക്കുക</string>
     <string name="action_launch">തുടങ്ങുക</string>
+    <string name="system_install_denied_permissions">പ്രത്യേക അനുമതികൾ വിപുലീകരണത്തിന് നൽകിയിട്ടില്ല! ഒരു ബഗ് റിപ്പോർട്ട് സൃഷ്ടിക്കുക!</string>
 </resources>

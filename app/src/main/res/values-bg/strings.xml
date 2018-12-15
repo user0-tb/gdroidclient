@@ -35,4 +35,5 @@
     <string name="action_install">Инсталиране</string>
     <string name="action_upgrade">Обновяване</string>
     <string name="action_launch">Пускане</string>
+    <string name="system_install_denied_permissions">Разширените пълномощия не бяха предоставени на плъгина! Моля
 </resources>

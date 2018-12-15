@@ -35,4 +35,5 @@
     <string name="action_install">འགྲིག་བཅུག</string>
     <string name="action_upgrade">རིམ་སྤར།</string>
     <string name="action_launch">འཁོར་སྐྱོད།</string>
+    <string name="system_install_denied_permissions">མཇུག་མཐུད་དེ་ལ་ཁེ་ཕན་ཆོག་མཆན་སྤྲད་མེད། སྐྱོན་ཅན་ཡིན་པའི་བརྡ་གཏོང་རོགས།!</string>
 </resources>

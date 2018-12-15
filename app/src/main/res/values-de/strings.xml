@@ -36,4 +36,5 @@
     <string name="action_install">Installieren</string>
     <string name="action_upgrade">Aktualisieren</string>
     <string name="action_launch">Starten</string>
+    <string name="system_install_denied_permissions">Die Genehmigungen für die Sonderrechte der Erweiterung wurden nicht erteilt! Bitte einen Fehlerbericht erstellen!</string>
 </resources>

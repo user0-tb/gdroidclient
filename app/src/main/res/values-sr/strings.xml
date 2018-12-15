@@ -35,4 +35,5 @@
     <string name="action_install">Инсталирај</string>
     <string name="action_upgrade">Надогради</string>
     <string name="action_launch">Покрени</string>
+    <string name="system_install_denied_permissions">Повлашћене дозволе нису одобрене за проширење! Пријавите грешку!
 </resources>

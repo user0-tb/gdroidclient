@@ -38,4 +38,5 @@
     <string name="action_install">安裝</string>
     <string name="action_upgrade">更新</string>
     <string name="action_launch">執行</string>
+    <string name="system_install_denied_permissions">擴充未被授予特權權限！請建立一份錯誤報告！
 </resources>

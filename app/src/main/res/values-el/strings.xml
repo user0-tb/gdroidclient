@@ -38,4 +38,5 @@
     <string name="action_install">Εγκατάσταση</string>
     <string name="action_upgrade">Αναβάθμιση</string>
     <string name="action_launch">Εκτέλεση</string>
+    <string name="system_install_denied_permissions">Τα δικαιώματα συστήματος δεν έχουν χορηγηθεί στην επέκταση!
 </resources>

@@ -38,4 +38,5 @@
     <string name="action_install">Installer</string>
     <string name="action_upgrade">Oppgrader</string>
     <string name="action_launch">Kjør</string>
+    <string name="system_install_denied_permissions">Tillegget har ikke blitt gitt priviligert tilgang. Send en
 </resources>

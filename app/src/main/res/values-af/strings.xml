@@ -35,4 +35,5 @@
     <string name="action_install">Installeer</string>
     <string name="action_upgrade">Opgradering</string>
     <string name="action_launch">Begin</string>
+    <string name="system_install_denied_permissions">Die voorreg toestemming is nie toegestaan vir die uitbreiding nie!
 </resources>

@@ -38,4 +38,5 @@
     <string name="action_install">Installa</string>
     <string name="action_upgrade">Aggiorna</string>
     <string name="action_launch">Avvia</string>
+    <string name="system_install_denied_permissions">I privilegi non sono stati concessi all'estensione! Per favore
 </resources>

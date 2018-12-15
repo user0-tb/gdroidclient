@@ -38,4 +38,5 @@
     <string name="action_install">Installer</string>
     <string name="action_upgrade">Mettre à jour</string>
     <string name="action_launch">Lancer</string>
+    <string name="system_install_denied_permissions">Les autorisations privilégiées n'ont pas été accordées à l'application ! Veuillez signaler ce bug !</string>
 </resources>

@@ -38,4 +38,5 @@
     <string name="action_install">Instalar</string>
     <string name="action_upgrade">Atualizar</string>
     <string name="action_launch">Executar</string>
+    <string name="system_install_denied_permissions">Não foram concedidas as permissões privilegiadas para a extensão!
 </resources>

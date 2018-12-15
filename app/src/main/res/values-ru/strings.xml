@@ -38,4 +38,5 @@
     <string name="action_install">Установить</string>
     <string name="action_upgrade">Обновить</string>
     <string name="action_launch">Запустить</string>
+    <string name="system_install_denied_permissions">Расширению не был предоставлен привилегированный доступ! Создайте отчет об ошибке!</string>
 </resources>

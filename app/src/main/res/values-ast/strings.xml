@@ -35,4 +35,5 @@
     <string name="action_install">Instalar</string>
     <string name="action_upgrade">Anovar</string>
     <string name="action_launch">Executar</string>
+    <string name="system_install_denied_permissions">¡Nun s'otorgaron permisos root pa la estensión! ¡Por favor, crea
 </resources>

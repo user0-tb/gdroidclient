@@ -38,4 +38,5 @@
     <string name="action_install">Installeren</string>
     <string name="action_upgrade">Bijwerken</string>
     <string name="action_launch">Uitvoeren</string>
+    <string name="system_install_denied_permissions">De extensie heeft geen systeemrechten gekregen! Maak een bugrapport
 </resources>

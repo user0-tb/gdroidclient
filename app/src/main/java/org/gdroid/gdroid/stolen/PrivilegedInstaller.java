@@ -1,13 +1,10 @@
 /*
  * Copyright (C) 2018 Andreas Redmer <ar-gdroid@abga.be>
- * Copyright (C) 2016 Blue Jay Wireless
- * Copyright (C) 2014-2016 Dominik Schürmann <dominik@dominikschuermann.de>
- * Copyright (C) 2015 Daniel Martí <mvdan@mvdan.cc>
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 3
- * of the License, or (at your option) any later version.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,12 +12,11 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301, USA.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-package org.gdroid.gdroid.stolen.installer;
+package org.gdroid.gdroid.stolen;
 
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -39,14 +35,13 @@ import android.util.Log;
 //import org.fdroid.fdroid.Preferences;
 //import org.fdroid.fdroid.R;
 //import org.fdroid.fdroid.data.Apk;
-//import org.fdroid.fdroid.privileged.IPrivilegedCallback;
-//import org.fdroid.fdroid.privileged.IPrivilegedService;
+import org.fdroid.fdroid.privileged.IPrivilegedCallback;
+import org.fdroid.fdroid.privileged.IPrivilegedService;
 
 import org.gdroid.gdroid.R;
 import org.gdroid.gdroid.beans.ApplicationBean;
 
 import java.util.HashMap;
-import java.util.prefs.Preferences;
 
 /**
  * Installer that only works if the "F-Droid Privileged
@@ -356,12 +351,12 @@ public class PrivilegedInstaller //extends Installer
                 };
 
                 try {
-                    boolean hasPermissions = privService.hasPrivilegedPermissions();
-                    if (!hasPermissions) {
-                        sendBroadcastInstall(downloadUri, ACTION_INSTALL_INTERRUPTED,
-                                context.getString(R.string.system_install_denied_permissions));
-                        return;
-                    }
+//                    boolean hasPermissions = privService.hasPrivilegedPermissions();
+//                    if (!hasPermissions) {
+//                        sendBroadcastInstall(downloadUri, ACTION_INSTALL_INTERRUPTED,
+//                                context.getString(R.string.system_install_denied_permissions));
+//                        return;
+//                    }
 
                     privService.installPackage(localApkUri, ACTION_INSTALL_REPLACE_EXISTING,
                             null, callback);

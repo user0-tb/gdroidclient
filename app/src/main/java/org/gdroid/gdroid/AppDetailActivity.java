@@ -18,7 +18,6 @@
 
 package org.gdroid.gdroid;
 
-import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -57,7 +56,7 @@ import org.gdroid.gdroid.beans.CategoryBean;
 import org.gdroid.gdroid.beans.TagBean;
 import org.gdroid.gdroid.perm.AppDiff;
 import org.gdroid.gdroid.perm.AppSecurityPermissions;
-import org.gdroid.gdroid.stolen.installer.PrivilegedInstaller;
+import org.gdroid.gdroid.stolen.PrivilegedInstaller;
 import org.json.JSONException;
 import org.json.JSONObject;
 

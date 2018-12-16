@@ -17,7 +17,7 @@
  * MA 02110-1301, USA.
  */
 
-package org.gdroid.gdroid.stolen.installer;
+package org.fdroid.fdroid.privileged;
 
 interface IPrivilegedCallback {
 

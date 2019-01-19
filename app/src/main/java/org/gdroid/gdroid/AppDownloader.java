@@ -40,6 +40,7 @@ import com.tonyodev.fetch2okhttp.OkHttpDownloader;
 import org.gdroid.gdroid.beans.AppDatabase;
 import org.gdroid.gdroid.beans.ApplicationBean;
 import org.gdroid.gdroid.installer.Installer;
+import org.gdroid.gdroid.util.Util;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

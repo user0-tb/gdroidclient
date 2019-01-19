@@ -35,6 +35,7 @@ import android.widget.TextView;
 
 import org.gdroid.gdroid.beans.AppCollectionDescriptor;
 import org.gdroid.gdroid.beans.ApplicationBean;
+import org.gdroid.gdroid.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;

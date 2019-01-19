@@ -18,6 +18,7 @@
 
 package org.gdroid.gdroid;
 
+import org.gdroid.gdroid.util.Util;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018,2019 Andreas Redmer <ar-gdroid@abga.be>
+ * Copyright (C) 2019 Andreas Redmer <ar-gdroid@abga.be>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  *
  */
 
-package org.gdroid.gdroid;
+package org.gdroid.gdroid.util;
 
 import android.app.Activity;
 import android.content.Context;
@@ -32,6 +32,8 @@ import android.support.v4.os.LocaleListCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.gdroid.gdroid.AppDownloader;
+import org.gdroid.gdroid.R;
 import org.gdroid.gdroid.beans.AppBeanNameComparator;
 import org.gdroid.gdroid.beans.AppDatabase;
 import org.gdroid.gdroid.beans.ApplicationBean;

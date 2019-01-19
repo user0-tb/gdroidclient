@@ -20,7 +20,7 @@ package org.gdroid.gdroid.tasks;
 
 import android.util.Pair;
 
-import org.gdroid.gdroid.Util;
+import org.gdroid.gdroid.util.Util;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

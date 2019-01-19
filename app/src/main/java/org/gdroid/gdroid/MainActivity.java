@@ -54,6 +54,7 @@ import org.gdroid.gdroid.beans.ApplicationBean;
 import org.gdroid.gdroid.beans.OrderByCol;
 import org.gdroid.gdroid.installer.baria.BariaInstaller;
 import org.gdroid.gdroid.tasks.DownloadJaredJsonTask;
+import org.gdroid.gdroid.util.Util;
 import org.gdroid.gdroid.widget.BottomNavigationView;
 
 import java.util.ArrayList;

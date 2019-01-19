@@ -32,7 +32,7 @@ import android.widget.Toast;
 import org.gdroid.gdroid.AppDownloader;
 import org.gdroid.gdroid.MainActivity;
 import org.gdroid.gdroid.R;
-import org.gdroid.gdroid.Util;
+import org.gdroid.gdroid.util.Util;
 import org.gdroid.gdroid.beans.ApplicationBean;
 
 import java.io.BufferedReader;

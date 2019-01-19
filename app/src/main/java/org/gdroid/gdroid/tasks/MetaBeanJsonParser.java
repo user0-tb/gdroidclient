@@ -23,7 +23,7 @@ import android.text.TextUtils;
 import android.util.Pair;
 
 import org.gdroid.gdroid.MetaMetric;
-import org.gdroid.gdroid.Util;
+import org.gdroid.gdroid.util.Util;
 import org.gdroid.gdroid.beans.ApplicationBean;
 import org.json.JSONArray;
 import org.json.JSONException;

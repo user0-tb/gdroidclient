@@ -16,7 +16,7 @@
  *
  */
 
-package org.gdroid.gdroid;
+package org.gdroid.gdroid.util;
 
 
 import java.util.ArrayList;

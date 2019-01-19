@@ -20,7 +20,7 @@ package org.gdroid.gdroid.beans;
 
 import android.content.Context;
 
-import org.gdroid.gdroid.Util;
+import org.gdroid.gdroid.util.Util;
 
 import java.util.Comparator;
 

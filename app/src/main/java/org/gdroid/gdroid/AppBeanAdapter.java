@@ -41,6 +41,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.gdroid.gdroid.beans.ApplicationBean;
+import org.gdroid.gdroid.util.Util;
 
 import java.text.DecimalFormat;
 import java.util.List;

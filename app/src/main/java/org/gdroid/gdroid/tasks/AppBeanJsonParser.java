@@ -115,6 +115,7 @@ class AppBeanJsonParser extends AbstractJsonParser implements JsonParser{
         ab.marketversion = latestPackage.getString("versionName");
         ab.marketvercode = latestPackage.getString("versionCode");
 
+        ab.hash =  latestPackage.getString("hash");
 
         // permissions from packages (optional)
         final JSONArray permissionsArray = latestPackage.optJSONArray("uses-permission");

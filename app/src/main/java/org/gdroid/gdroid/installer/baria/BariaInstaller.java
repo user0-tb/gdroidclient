@@ -90,7 +90,7 @@ public class BariaInstaller {
                 // wait for each file to be completely downloaded
                 for (String fn:apks) {
                     File f = new File (fn);
-                    Util.waitForFileToBeStable(f);
+//                    Util.waitForFileToBeStable(f); // TODO HERE
                 }
                 //then do the installations
                 ((Activity)context).runOnUiThread(new Runnable() {

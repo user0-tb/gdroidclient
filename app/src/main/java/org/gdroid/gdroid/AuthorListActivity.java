@@ -54,7 +54,7 @@ public class AuthorListActivity extends AppCompatActivity {
 
         AppDatabase db = AppDatabase.get(getApplicationContext());
         final AuthorBean[] allAuthors = db.appDao().getAllAuthors();
-
+        db.close();
         final AuthorArrayAdapter adapter = new AuthorArrayAdapter(this, allAuthors);
         authorsList.setAdapter(adapter);
 

@@ -42,7 +42,10 @@ import org.gdroid.gdroid.installer.DefaultInstaller;
 import org.gdroid.gdroid.installer.Installer;
 import org.gdroid.gdroid.installer.RootInstaller;
 
+import java.io.Closeable;
 import java.io.File;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -150,6 +153,7 @@ public class Util {
             final ApplicationBean app = db.appDao().getApplicationBean(starredAppId);
             ret.add(app);
         }
+        db.close();
         Collections.sort(ret, new AppBeanNameComparator(context,
                 Util.getOrderByColumn(context), Util.getOrderByDirection(context).equals("ASC")));
         return ret;
@@ -200,13 +204,14 @@ public class Util {
         final PackageManager pm = context.getPackageManager();
         List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
         List<String> packageNames = new ArrayList<>(packages.size());
-        AppDatabase db = AppDatabase.get(context);
         for (ApplicationInfo packageInfo : packages) {
             packageNames.add(packageInfo.packageName);
         }
 
+        AppDatabase db = AppDatabase.get(context);
 //        List<ApplicationBean> ret = db.appDao().getSomeApplicationBeans2(packageNames, getOrderByColumn(context));
         List<ApplicationBean> ret = db.appDao().getSomeApplicationBeansList(packageNames);
+        db.close();
         Collections.sort(ret, new AppBeanNameComparator(context,
                 Util.getOrderByColumn(context),
                 Util.getOrderByDirection(context).equals("ASC"),
@@ -550,17 +555,44 @@ public class Util {
         AppDownloader.getFetch(context).awaitFinishOrTimeout(120000L);
     }
 
-    public static void waitForFileToBeStable(File file) {
+    public static boolean waitForAppDownloadToBeCorrectlyFinished(Context context, ApplicationBean ab)
+    {
+        final String downloadTarget = AppDownloader.getAbsoluteFilenameOfDownloadTarget(context, ab);
+        File file = new File(downloadTarget);
+        waitForFileToBeStable(file);
+        if (!Hasher.isFileMatchingHash(file, ab.hash , "sha256"))
+        {
+            try {
+                Hasher h = new Hasher("sha256", file);
+                Log.e(TAG, String.format("FileHash mismatch expected %s but was %s for file %s ", ab.hash, h.getHash(), downloadTarget));
+            } catch (NoSuchAlgorithmException e) {
+                //e.printStackTrace();
+                Log.e(TAG,"exception in error handling", e);
+            }
+            return false;
+        }
+        Log.i(TAG,String.format("Download of file %s completed with correct hash", downloadTarget));
+        return true;
+    }
+
+    private static void waitForFileToBeStable(File file) {
         long fileSize = file.length();
+        int waitCount = 0;
         while (true)
         {
             Log.d(TAG, "waiting for download "+file.getName()+" to settle. Got now "+fileSize+" bytes");
             try {
-                Thread.sleep(5000);
+                waitCount++;
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             long newFileSize = file.length();
+            if (waitCount >= 30 && newFileSize == 0L)
+            {
+                Log.w(TAG, "download of "+file.getName()+" did not start ");
+                break;
+            }
             if (newFileSize == 0L)
                 continue;
             if (newFileSize == fileSize)
@@ -569,6 +601,16 @@ public class Util {
         }
     }
 
+    public static void closeQuietly(Closeable closeable) {
+        if (closeable == null) {
+            return;
+        }
+        try {
+            closeable.close();
+        } catch (IOException ioe) {
+            // ignore
+        }
+    }
 
 
 }

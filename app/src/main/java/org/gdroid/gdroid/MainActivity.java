@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity
                 AsyncTask.execute(new Runnable() {
                     @Override
                     public void run() {
-                        Util.waitForAllDownloadsToFinish(activity);
+//                        Util.waitForAllDownloadsToFinish(activity);
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -358,22 +358,22 @@ public class MainActivity extends AppCompatActivity
             appCollectionDescriptorList.clear();
             AppDatabase db = AppDatabase.get(context);
             final String[] categoryNames = db.appDao().getAllCategoryNames();
+            db.close();
             for (String cn : categoryNames) {
                 AppCollectionDescriptor ad = new AppCollectionDescriptor(context, "cat:" + cn);
                 appCollectionDescriptorList.add(ad);
                 Collections.sort(appCollectionDescriptorList);
             }
-            db.close();
         } else if (screen.equals("tags")) {
             appCollectionDescriptorList.clear();
             AppDatabase db = AppDatabase.get(context);
             final String[] tagNames = db.appDao().getAllTagNames();
+            db.close();
             for (String tn : tagNames) {
                 AppCollectionDescriptor ad = new AppCollectionDescriptor(context, "tag:" + tn);
                 appCollectionDescriptorList.add(ad);
                 Collections.sort(appCollectionDescriptorList);
             }
-            db.close();
         }
 
         runOnUiThread(new Runnable() {

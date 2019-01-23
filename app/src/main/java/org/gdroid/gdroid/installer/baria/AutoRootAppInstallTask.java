@@ -129,31 +129,33 @@ public class AutoRootAppInstallTask extends AsyncTask<Void, ApplicationBean, Voi
 
     }
 
-    public void installApps() {
-
-        for(ApplicationBean packageInfo: packages){
+    private void installApps() {
+        for(ApplicationBean ab: packages){
             current++;
-            publishProgress(packageInfo);
+            publishProgress(ab);
             try {
                 if (Util.isRooted()) {
-                    final String downloadTarget = AppDownloader.getAbsoluteFilenameOfDownloadTarget(context, packageInfo);
-                    installApp(downloadTarget);
+
+                    installApp(ab);
                 }
-            }catch (Exception e) {
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public void installApp(String filename) {
-        Util.waitForAllDownloadsToFinish(context);
+    private void installApp(ApplicationBean ab) {
+//        Util.waitForAllDownloadsToFinish(context);
         //TODO use RootInstaller here
-        File file = new File(filename);
-        Util.waitForFileToBeStable(file);
-        if(file.exists()){
+        final boolean downloadIsCool = Util.waitForAppDownloadToBeCorrectlyFinished(context, ab);
+        final String downloadTarget = AppDownloader.getAbsoluteFilenameOfDownloadTarget(context, ab);
+//        File file = new File(filename);
+//        Util.waitForFileToBeStable(file);
+        if(downloadIsCool){
             try {
                 String command;
-                command = "pm install -r " + filename;
+                command = "pm install -r " + downloadTarget;
                 Process proc = Runtime.getRuntime().exec(new String[] { "su", "-c", command });
                 proc.waitFor();
                 if(proc.exitValue() != 0) {

@@ -57,13 +57,13 @@ public class AppDownloader {
         final Installer installer = Util.getAppInstaller(context);
 
         String url = repoBaseUrl+mApp.apkname;
-        final String file = getAbsoluteFilenameOfDownloadTarget(context, mApp);
+        final String filename = getAbsoluteFilenameOfDownloadTarget(context, mApp);
 
 
         final MutableExtras extras = new MutableExtras();
         extras.putString("id", mApp.id);
 
-        final Request request = new Request(url, file);
+        final Request request = new Request(url, filename);
         request.setPriority(Priority.HIGH);
         request.setNetworkType(NetworkType.ALL);
         request.setExtras(extras);
@@ -121,15 +121,15 @@ public class AppDownloader {
                         }
                     }
                 };
-
-                Log.d(TAG, "done");
+// TODO check correct targe file name here
+                Log.d(TAG, "finished downloading "+filename);
                 String appId = download.getExtras().getString("id","");
                 AppDatabase db = AppDatabase.get(context);
                 ApplicationBean ab = db.appDao().getApplicationBean(appId);
                 db.close();
                 final String fn = getAbsoluteFilenameOfDownloadTarget(context, ab);
                 if (install)
-                    installer.installApp(context, file, onComplete);
+                    installer.installApp(context, filename, onComplete);
             }
 
             @Override

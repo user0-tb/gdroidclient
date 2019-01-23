@@ -126,8 +126,6 @@ public class DownloadJaredJsonTask extends AsyncTask<String, Void, List<Applicat
                     }
                 }
                 db.appDao().insertTags(allTagMappings);
-
-
                 db.close();
 
                 // update the UI after DB has been updated (on the first 2 tabs)

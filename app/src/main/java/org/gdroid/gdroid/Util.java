@@ -635,95 +635,98 @@ public class Util {
      *                    The adapter cannot be provided directly here, as it might still be null when this function is called
      */
     public static void getRecentlyCommentedAppsAsync(final Context context, final int pLimit, final List<ApplicationBean> ret, final Runnable postExecute) {
-        if (! isUIThread())
-        {
-            throw new RuntimeException("This method must be called from the UI thread");
-        }
 
-        // provide a quick result (and obey limit)
-        ret.clear();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                // provide a quick result (and obey limit)
+                ret.clear();
 //        int limit = Math.min(ret.size()-1,pLimit);
 //        limit = Math.max(0,limit);
 //        ret.addAll(new ArrayList(cachedRecentlyCommentedApps.subList(0, limit)));
-        ret.addAll(cachedRecentlyCommentedApps);
-        if (postExecute != null)
-            postExecute.run();
+                ret.addAll(cachedRecentlyCommentedApps);
+                if (postExecute != null)
+                    postExecute.run();
 
-        final DownloadCommentsTask2 downloadCommentsTask = new DownloadCommentsTask2();
+                final DownloadCommentsTask2 downloadCommentsTask = new DownloadCommentsTask2();
 
-        downloadCommentsTask.setRunnableOnPostExecute(new Runnable() {
-            @Override
-            public void run() {
-                final List<CommentBean> comments = downloadCommentsTask.getResult();
-
-                // now we got the comment beans, start another background task to fill the application beans
-
-                AsyncTask.execute(new Runnable() {
+                downloadCommentsTask.setRunnableOnPostExecute(new Runnable() {
                     @Override
                     public void run() {
-                        List<String> appIds = new ArrayList<>(40*2);
-                        try {
-                            // extract app IDs
-                            for (CommentBean cb : comments) {
-                                Pattern pattern = Pattern.compile("#<span>\\w+</span>", Pattern.CASE_INSENSITIVE);
-                                Matcher matcher = pattern.matcher(cb.content);
-                                while (matcher.find()) {
-                                    String possibleHashtag = matcher.group();
-                                    possibleHashtag = possibleHashtag.replace("#<span>", "");
-                                    possibleHashtag = possibleHashtag.replace("</span>", "");
-                                    if (possibleHashtag.equals(Const.HASHTAG_APP_COMMENTS))
-                                        continue;
+                        final List<CommentBean> comments = downloadCommentsTask.getResult();
 
-                                    if (!appIds.contains(possibleHashtag))
-                                        appIds.add(possibleHashtag);
+                        // now we got the comment beans, start another background task to fill the application beans
 
-                                    // arrived here we have a match, most likely an app id
+                        AsyncTask.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                List<String> appIds = new ArrayList<>(40*2);
+                                try {
+                                    // extract app IDs
+                                    for (CommentBean cb : comments) {
+                                        Pattern pattern = Pattern.compile("#<span>\\w+</span>", Pattern.CASE_INSENSITIVE);
+                                        Matcher matcher = pattern.matcher(cb.content);
+                                        while (matcher.find()) {
+                                            String possibleHashtag = matcher.group();
+                                            possibleHashtag = possibleHashtag.replace("#<span>", "");
+                                            possibleHashtag = possibleHashtag.replace("</span>", "");
+                                            if (possibleHashtag.equals(Const.HASHTAG_APP_COMMENTS))
+                                                continue;
+
+                                            if (!appIds.contains(possibleHashtag))
+                                                appIds.add(possibleHashtag);
+
+                                            // arrived here we have a match, most likely an app id
+                                        }
+                                    }
+
+                                    // store each successful fetch in Pref
+                                    if (!appIds.isEmpty()) {
+                                        Pref.get().setLastCommentedApps(TextUtils.join(";", appIds));
+                                    }
                                 }
-                            }
+                                catch (Throwable t)
+                                {
+                                    // fallback to the cached list from Pref below
+                                }
 
-                            // store each successful fetch in Pref
-                            if (!appIds.isEmpty()) {
-                                Pref.get().setLastCommentedApps(TextUtils.join(";", appIds));
-                            }
-                        }
-                        catch (Throwable t)
-                        {
-                            // fallback to the cached list from Pref below
-                        }
+                                if (appIds.isEmpty())
+                                {
+                                    final String[] idArray = Pref.get().getLastCommentedApps().split(";");
+                                    appIds = new ArrayList<>(Arrays.asList(idArray));
+                                }
 
-                        if (appIds.isEmpty())
-                        {
-                            final String[] idArray = Pref.get().getLastCommentedApps().split(";");
-                            appIds = new ArrayList<>(Arrays.asList(idArray));
-                        }
+                                // we have to get the apps one by one from the DB to retain the order
+                                ret.clear();
+                                for (String appId : appIds)
+                                {
+                                    AppDatabase db = AppDatabase.get(context);
+                                    ApplicationBean ab = db.appDao().getApplicationBean(convertHashtagToPackageName(appId));
+                                    if (ab != null)
+                                    {
+                                        ret.add(ab);
+                                    }
+                                }
 
-                        // we have to get the apps one by one from the DB to retain the order
-                        ret.clear();
-                        for (String appId : appIds)
-                        {
-                            AppDatabase db = AppDatabase.get(context);
-                            ApplicationBean ab = db.appDao().getApplicationBean(convertHashtagToPackageName(appId));
-                            if (ab != null)
-                            {
-                                ret.add(ab);
-                            }
-                        }
-
-                        cachedRecentlyCommentedApps = new ArrayList<>(ret);
-                        int limit = Math.min(ret.size()-1,pLimit);
-                        limit = Math.max(0,limit);
+                                cachedRecentlyCommentedApps = new ArrayList<>(ret);
+                                int limit = Math.min(ret.size()-1,pLimit);
+                                limit = Math.max(0,limit);
 //        ret = new ArrayList(ret.subList(0, limit)); // TODO obey limit
-                        Log.i("Util", "informing adapter about change");
-                        if (postExecute != null)
-                            postExecute.run();
+                                Log.i("Util", "informing adapter about change");
+                                if (postExecute != null)
+                                    postExecute.run();
 
+                            }
+                        });
                     }
                 });
+
+                downloadCommentsTask.execute(Const.HASHTAG_APP_COMMENTS);
+                TaskManager.addOrReplaceTask(DataDescriptor.RecentlyCommentedApps, downloadCommentsTask);
+
             }
         });
-
-        downloadCommentsTask.execute(Const.HASHTAG_APP_COMMENTS);
-        TaskManager.addOrReplaceTask(DataDescriptor.RecentlyCommentedApps, downloadCommentsTask);
 
     }
 
@@ -739,8 +742,26 @@ public class Util {
         return Thread.currentThread().equals( Looper.getMainLooper().getThread() );
     }
 
-    public static void runOnUiThread(Runnable r )
+    /**
+     * Run always on UI thread, no matter where is was called from
+     * @param r
+     */
+    public static void runOnUiThread(final Runnable r )
     {
         new Handler(Looper.getMainLooper()).post(r);
+    }
+
+    /**
+     * Run always in background, no matter where called from.
+     * @param r
+     */
+    public static void runInBackground(final Runnable r )
+    {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                AsyncTask.execute(r);
+            }
+        });
     }
 }

@@ -347,49 +347,60 @@ public class MainActivity extends AppCompatActivity
         if (screen.equals("home")) {
             appCollectionDescriptorList.clear();
             // trigger an update here, because the app must be reactive, the switch to the new screen happens right away
-            runOnUiThread(new Runnable() {
+            Util.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     appCollectionAdapter.notifyDataSetChanged();
                 }
             });
-            appCollectionDescriptorList.add(new AppCollectionDescriptor(context, "newest_apps"));
-            appCollectionDescriptorList.add(new AppCollectionDescriptor(context, "recently_updated"));
-            appCollectionDescriptorList.add(new AppCollectionDescriptor(context, "highly_rated"));
+            String[] collections = new String[] {"newest_apps", "recently_updated", "highly_rated", "similar_to_my_apps", "you_might_also_like"};
+            for (String c: collections)
+            {
+                appCollectionDescriptorList.add(new AppCollectionDescriptor(context, c));
+                Util.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        appCollectionAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+//            appCollectionDescriptorList.add(new AppCollectionDescriptor(context, "newest_apps"));
+//            appCollectionDescriptorList.add(new AppCollectionDescriptor(context, "recently_updated"));
+//            appCollectionDescriptorList.add(new AppCollectionDescriptor(context, "highly_rated"));
 
             // trigger an update here, because the next collection is a bit slow
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    appCollectionAdapter.notifyDataSetChanged();
-                }
-            });
-            appCollectionDescriptorList.add(new AppCollectionDescriptor(context, "similar_to_my_apps"));
-
-            // trigger an update here, because the next collection is a bit slow
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    appCollectionAdapter.notifyDataSetChanged();
-                }
-            });
-            appCollectionDescriptorList.add(new AppCollectionDescriptor(context, "you_might_also_like"));
-
-            // trigger an update here, because the next collection is a bit slow
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    appCollectionAdapter.notifyDataSetChanged();
-                }
-            });
+//            runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    appCollectionAdapter.notifyDataSetChanged();
+//                }
+//            });
+//            appCollectionDescriptorList.add(new AppCollectionDescriptor(context, "similar_to_my_apps"));
+//
+//            // trigger an update here, because the next collection is a bit slow
+//            runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    appCollectionAdapter.notifyDataSetChanged();
+//                }
+//            });
+//            appCollectionDescriptorList.add(new AppCollectionDescriptor(context, "you_might_also_like"));
+//
+//            // trigger an update here, because the next collection is a bit slow
+//            Util.runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    appCollectionAdapter.notifyDataSetChanged();
+//                }
+//            });
             appCollectionDescriptorList.add(new AppCollectionDescriptor(context, "recently_commented",appCollectionAdapter));
+            Util.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    appCollectionAdapter.notifyDataSetChanged();
+                }
+            });
             appCollectionDescriptorList.add(new AppCollectionDescriptor(context, "random_apps"));
-//            AppCollectionDescriptor a7 = new AppCollectionDescriptor(context, "popular apps");
-//            appCollectionDescriptorList.add(a7);
-//            AppCollectionDescriptor a8 = new AppCollectionDescriptor(context, "app of the day");
-//            appCollectionDescriptorList.add(a8);
-//            AppCollectionDescriptor a9 = new AppCollectionDescriptor(context, "well maintained");
-//            appCollectionDescriptorList.add(a9);
         } else if (screen.equals("categories")) {
             appCollectionDescriptorList.clear();
             AppDatabase db = AppDatabase.get(context);
@@ -398,6 +409,12 @@ public class MainActivity extends AppCompatActivity
                 AppCollectionDescriptor ad = new AppCollectionDescriptor(context, "cat:" + cn);
                 appCollectionDescriptorList.add(ad);
                 Collections.sort(appCollectionDescriptorList);
+                Util.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        appCollectionAdapter.notifyDataSetChanged();
+                    }
+                });
             }
             db.close();
         } else if (screen.equals("tags")) {
@@ -408,11 +425,17 @@ public class MainActivity extends AppCompatActivity
                 AppCollectionDescriptor ad = new AppCollectionDescriptor(context, "tag:" + tn);
                 appCollectionDescriptorList.add(ad);
                 Collections.sort(appCollectionDescriptorList);
+                Util.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        appCollectionAdapter.notifyDataSetChanged();
+                    }
+                });
             }
             db.close();
         }
 
-        runOnUiThread(new Runnable() {
+        Util.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 appCollectionAdapter.notifyDataSetChanged();
@@ -434,34 +457,80 @@ public class MainActivity extends AppCompatActivity
                 {
                     final String screenName = "home";
                     Util.setLastMenuItem(getApplicationContext(), screenName);
-                    setUpCollectionCards();
-                    prepareAppCollections(screenName);
-                    appBeanAdapter.notifyDataSetChanged();
+                    Util.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setUpCollectionCards();
+                        }
+                    });
+                    Util.runInBackground(new Runnable() {
+                        @Override
+                        public void run() {
+                            prepareAppCollections(screenName);
+                        }
+                    });
+//                    setUpCollectionCards();
+//                    prepareAppCollections(screenName);
+//                    appBeanAdapter.notifyDataSetChanged();
                     return true;
                 }
                 case R.id.navigation_categories:
                 {
                     final String screenName = "categories";
                     Util.setLastMenuItem(getApplicationContext(), screenName);
-                    setUpCollectionCards();
-                    prepareAppCollections(screenName);
+                    Util.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setUpCollectionCards();
+                        }
+                    });
+                    Util.runInBackground(new Runnable() {
+                        @Override
+                        public void run() {
+                            prepareAppCollections(screenName);
+                        }
+                    });
                     return true;
                 }
                 case R.id.navigation_tags: {
                     final String screenName = "tags";
                     Util.setLastMenuItem(getApplicationContext(), screenName);
-                    setUpCollectionCards();
-                    prepareAppCollections(screenName);
+                    Util.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setUpCollectionCards();
+                        }
+                    });
+                    Util.runInBackground(new Runnable() {
+                        @Override
+                        public void run() {
+                            prepareAppCollections(screenName);
+                        }
+                    });
                     return true;
                 }
                 case R.id.navigation_starred: {
                     final String screenName = "starred";
                     Util.setLastMenuItem(getApplicationContext(), screenName);
                     setUpAppCards();
-                    AppCollectionDescriptor appCollectionDescriptor = new AppCollectionDescriptor(getApplicationContext(), screenName);
-                    appBeanList.clear();
-                    appBeanList.addAll(appCollectionDescriptor.getApplicationBeanList());
-                    appBeanAdapter.notifyDataSetChanged();
+                    Util.runInBackground(new Runnable() {
+                        @Override
+                        public void run() {
+                            AppCollectionDescriptor myAppsCollectionDescriptor = new AppCollectionDescriptor(getApplicationContext(), screenName);
+                            if (Util.getLastMenuItem(getApplicationContext()).equals(screenName)) // only if selected tab still the same
+                            {
+                                appBeanList.clear();
+                                appBeanList.addAll(myAppsCollectionDescriptor.getApplicationBeanList());
+
+                                Util.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        appBeanAdapter.notifyDataSetChanged();
+                                    }
+                                });
+                            }
+                        }
+                    });
                     return true;
                 }
                 case R.id.navigation_myapps:
@@ -469,17 +538,16 @@ public class MainActivity extends AppCompatActivity
                     final String screenName = "myapps";
                     Util.setLastMenuItem(getApplicationContext(), screenName);
                     setUpAppCards();
-                    final String finalScreenName = screenName;
-                    AsyncTask.execute(new Runnable() {
+                    Util.runInBackground(new Runnable() {
                         @Override
                         public void run() {
-                            AppCollectionDescriptor myAppsCollectionDescriptor = new AppCollectionDescriptor(getApplicationContext(), finalScreenName);
+                            AppCollectionDescriptor myAppsCollectionDescriptor = new AppCollectionDescriptor(getApplicationContext(), screenName);
                             if (Util.getLastMenuItem(getApplicationContext()).equals(screenName)) // only if selected tab still the same
                             {
                                 appBeanList.clear();
                                 appBeanList.addAll(myAppsCollectionDescriptor.getApplicationBeanList());
 
-                                runOnUiThread(new Runnable() {
+                                Util.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
                                         appBeanAdapter.notifyDataSetChanged();

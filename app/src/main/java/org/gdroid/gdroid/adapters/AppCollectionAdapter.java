@@ -110,19 +110,29 @@ public class AppCollectionAdapter extends RecyclerView.Adapter<AppCollectionAdap
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        AppCollectionDescriptor appCollectionDescriptor = appCollectionDescriptorList.get(position);
+        final AppCollectionDescriptor appCollectionDescriptor = appCollectionDescriptorList.get(position);
         final String collectionName = appCollectionDescriptor.getName();
         final String headline = appCollectionDescriptor.getLocalisedHeadline();
         final View.OnClickListener clickListener = getOnClickListenerForCatOrTag(collectionName, headline, (Activity)mContext);
 
         holder.title.setText(headline);
         holder.applicationBeanList.clear();
-        holder.applicationBeanList.addAll(appCollectionDescriptor.getApplicationBeanList());
-        holder.adapter.notifyDataSetChanged();
+        Util.runInBackground(new Runnable() {
+            @Override
+            public void run() {
+                holder.applicationBeanList.addAll(appCollectionDescriptor.getApplicationBeanList());
+                Util.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        holder.adapter.notifyDataSetChanged();
+                        holder.moreButton.setOnClickListener(clickListener);
+                        holder.headlineContainer.setOnClickListener(clickListener);
+                        holder.title.setOnClickListener(clickListener);
+                    }
+                });
 
-        holder.moreButton.setOnClickListener(clickListener);
-        holder.headlineContainer.setOnClickListener(clickListener);
-        holder.title.setOnClickListener(clickListener);
+            }
+        });
 
     }
 

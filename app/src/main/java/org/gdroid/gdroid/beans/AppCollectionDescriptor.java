@@ -43,6 +43,7 @@ public class AppCollectionDescriptor implements Comparable<AppCollectionDescript
 
     private String name;
     private List<ApplicationBean> applicationBeanList;
+    private boolean isProcessing = false;
 
     /**
      *
@@ -82,288 +83,304 @@ public class AppCollectionDescriptor implements Comparable<AppCollectionDescript
     }
 
     public void updateAppsInCollection() {
-        String collectionName = name;
-        if (collectionName.equals("newest_apps"))
-        {
-            AppDatabase db = AppDatabase.get(mContext);
+        isProcessing = true;
+        final String collectionName = name;
+        Util.runInBackground(new Runnable() {
+            @Override
+            public void run() {
+                if (collectionName.equals("newest_apps"))
+                {
+                    AppDatabase db = AppDatabase.get(mContext);
 
-            ApplicationBean[] appsInDb = db.appDao().getLastAdded(mLimit,mOffset);
+                    ApplicationBean[] appsInDb = db.appDao().getLastAdded(mLimit,mOffset);
 
-            applicationBeanList.clear();
-            for (ApplicationBean ab: appsInDb ) {
-                applicationBeanList.add(ab);
-            }
-            db.close();
-        }
-        else if (collectionName.equals("recently_updated"))
-        {
-            AppDatabase db = AppDatabase.get(mContext);
-            ApplicationBean[] appsInDb = db.appDao().getLastUpdated(mLimit,mOffset);
+                    applicationBeanList.clear();
+                    for (ApplicationBean ab: appsInDb ) {
+                        applicationBeanList.add(ab);
+                    }
+                    db.close();
+                }
+                else if (collectionName.equals("recently_updated"))
+                {
+                    AppDatabase db = AppDatabase.get(mContext);
+                    ApplicationBean[] appsInDb = db.appDao().getLastUpdated(mLimit,mOffset);
 
-            applicationBeanList.clear();
-            for (ApplicationBean ab: appsInDb ) {
-                applicationBeanList.add(ab);
-            }
-            db.close();
-        }
-        else if (collectionName.equals("highly_rated"))
-        {
-            AppDatabase db = AppDatabase.get(mContext);
-            ApplicationBean[] appsInDb = db.appDao().getHighRated(mLimit,mOffset);
+                    applicationBeanList.clear();
+                    for (ApplicationBean ab: appsInDb ) {
+                        applicationBeanList.add(ab);
+                    }
+                    db.close();
+                }
+                else if (collectionName.equals("highly_rated"))
+                {
+                    AppDatabase db = AppDatabase.get(mContext);
+                    ApplicationBean[] appsInDb = db.appDao().getHighRated(mLimit,mOffset);
 
-            applicationBeanList.clear();
-            for (ApplicationBean ab: appsInDb ) {
-                applicationBeanList.add(ab);
-            }
-            db.close();
-        }
-        else if (collectionName.equals("random_apps"))
-        {
-            AppDatabase db = AppDatabase.get(mContext);
-            ApplicationBean[] appsInDb = db.appDao().getRandom(mLimit,mOffset);
+                    applicationBeanList.clear();
+                    for (ApplicationBean ab: appsInDb ) {
+                        applicationBeanList.add(ab);
+                    }
+                    db.close();
+                }
+                else if (collectionName.equals("random_apps"))
+                {
+                    AppDatabase db = AppDatabase.get(mContext);
+                    ApplicationBean[] appsInDb = db.appDao().getRandom(mLimit,mOffset);
 
-            applicationBeanList.clear();
-            for (ApplicationBean ab: appsInDb ) {
-                applicationBeanList.add(ab);
-            }
-            db.close();
-        }
-        else if (collectionName.equals("recently_commented"))
-        {
-            applicationBeanList.clear();
+                    applicationBeanList.clear();
+                    for (ApplicationBean ab: appsInDb ) {
+                        applicationBeanList.add(ab);
+                    }
+                    db.close();
+                }
+                else if (collectionName.equals("recently_commented"))
+                {
+                    applicationBeanList.clear();
 //            applicationBeanList.addAll(Util.getRecentlyCommentedAppsQuick(mContext,mLimit));
-            Util.getRecentlyCommentedAppsAsync(mContext, mLimit, applicationBeanList, new Runnable() {
-                @Override
-                public void run() {
-                    notifyAdapter();
+                    Util.getRecentlyCommentedAppsAsync(mContext, mLimit, applicationBeanList, new Runnable() {
+                        @Override
+                        public void run() {
+                            notifyAdapter();
+                        }
+                    });
                 }
-            });
-        }
-        else if (collectionName.equals("starred"))
-        {
-            applicationBeanList.clear();
-            applicationBeanList.addAll(Util.getStarredApps(mContext));
-        }
-        else if (collectionName.equals("myapps"))
-        {
-            applicationBeanList.clear();
-            applicationBeanList.addAll(Util.getInstalledApps(mContext));
-        }
-        else if (collectionName.equals("hiddenapps"))
-        {
-            applicationBeanList.clear();
-            applicationBeanList.addAll(Util.getHiddenApps(mContext));
-        }
-        else if (collectionName.startsWith("search:"))
-        {
-            String searchString = collectionName.replace("search:","");
-            searchString = "%"+searchString+"%";
-            AppDatabase db = AppDatabase.get(mContext);
-            ApplicationBean[] appsInDb = db.appDao().getAllAppsForSearchString(searchString, mLimit, mOffset);
-
-            applicationBeanList.clear();
-            for (ApplicationBean ab: appsInDb ) {
-                applicationBeanList.add(ab);
-            }
-            Collections.sort(applicationBeanList, new AppBeanNameComparator(mContext,
-                    Util.getOrderByColumn(mContext),
-                    Util.getOrderByDirection(mContext).equals("ASC")));
-            db.close();
-        }
-        else if (collectionName.startsWith("search2:")) // level 2 search
-        {
-            String searchString = collectionName.replace("search2:","");
-            searchString = "%"+searchString+"%";
-            AppDatabase db = AppDatabase.get(mContext);
-            ApplicationBean[] appsInDb = db.appDao().getAllAppsForSearch2String(searchString, mLimit, mOffset);
-
-            applicationBeanList.clear();
-            for (ApplicationBean ab: appsInDb ) {
-                applicationBeanList.add(ab);
-            }
-            Collections.sort(applicationBeanList, new AppBeanNameComparator(mContext,
-                    Util.getOrderByColumn(mContext),
-                    Util.getOrderByDirection(mContext).equals("ASC")));
-            db.close();
-        }
-        else if (collectionName.startsWith("search3:")) // level 3 search
-        {
-            String searchString = collectionName.replace("search3:","");
-            searchString = "%"+searchString+"%";
-            AppDatabase db = AppDatabase.get(mContext);
-            ApplicationBean[] appsInDb = db.appDao().getAllAppsForSearch3String(searchString, mLimit, mOffset);
-
-            applicationBeanList.clear();
-            for (ApplicationBean ab: appsInDb ) {
-                applicationBeanList.add(ab);
-            }
-            Collections.sort(applicationBeanList, new AppBeanNameComparator(mContext,
-                    Util.getOrderByColumn(mContext),
-                    Util.getOrderByDirection(mContext).equals("ASC")));
-            db.close();
-        }
-        else if (collectionName.startsWith("author:"))
-        {
-            String au = collectionName.replace("author:","");
-            AppDatabase db = AppDatabase.get(mContext);
-            ApplicationBean[] appsInDb = db.appDao().getAppsByAuthor(au, mLimit, mOffset);
-
-            applicationBeanList.clear();
-            for (ApplicationBean ab: appsInDb ) {
-                applicationBeanList.add(ab);
-            }
-            db.close();
-        }
-        else if (collectionName.startsWith("similar:"))
-        {
-            String appToCheck = collectionName.replace("similar:","");
-            AppDatabase db = AppDatabase.get(mContext);
-            final ApplicationBean applicationBean = db.appDao().getApplicationBean(appToCheck);
-            ApplicationBean[] appsInDb = db.appDao().getSomeApplicationBeans(applicationBean.getNeighbours());
-
-            applicationBeanList.clear();
-            for (ApplicationBean ab: appsInDb ) {
-                applicationBeanList.add(ab);
-            }
-            db.close();
-        }
-        else if (collectionName.startsWith("similar_ordered:"))
-        {
-            String appToCheck = collectionName.replace("similar_ordered:","");
-            AppDatabase db = AppDatabase.get(mContext);
-            final ApplicationBean applicationBean = db.appDao().getApplicationBean(appToCheck);
-            final List<String> neighbours = applicationBean.getNeighbours();
-            applicationBeanList.clear();
-            for (String n :neighbours) {
-                final ApplicationBean ab = db.appDao().getApplicationBean(n);
-                if (ab != null)
+                else if (collectionName.equals("starred"))
                 {
-                    applicationBeanList.add(ab);
+                    applicationBeanList.clear();
+                    applicationBeanList.addAll(Util.getStarredApps(mContext));
                 }
-            }
-            db.close();
-        }
-        else if (collectionName.equals("similar_to_my_apps"))
-        {
-            final List<ApplicationBean> installedApps = Util.getInstalledApps(mContext);
-            Map<String,Integer> simMap = new HashMap<>();
-
-            // collect similar apps to installed apps with their similarity
-            for (ApplicationBean ab:installedApps) {
-                final List<Pair<String, Integer>> neighboursWithSimilarity = ab.getNeighboursWithSimilarity();
-                for (Pair<String, Integer> p:neighboursWithSimilarity) {
-                    final String papp = p.first;
-                    final Integer psim = p.second;
-                    if (simMap.containsKey(papp))
-                    {
-                        int i = simMap.get(papp);
-                        i += psim;
-                        simMap.put(papp, i);
-                    }
-                    else
-                    {
-                        simMap.put(papp, psim);
-                    }
-                }
-            }
-
-            // get data out of simmap, order by int value and remove apps that are already installed
-            final List<Map.Entry<String, Integer>> sortedSimList = MapUtil.sortByValueToList(simMap,true);
-            applicationBeanList.clear();
-            AppDatabase db = AppDatabase.get(mContext);
-            int i = 0;
-            for (Map.Entry<String, Integer> e :sortedSimList) {
-                // check if app is not already installed
-                if (Util.isAppInstalled(mContext, e.getKey()))
+                else if (collectionName.equals("myapps"))
                 {
-                    continue;
+                    applicationBeanList.clear();
+                    applicationBeanList.addAll(Util.getInstalledApps(mContext));
                 }
-                if (e.getValue() <2)
-                    continue;
-                ApplicationBean ab = db.appDao().getApplicationBean(e.getKey());
-                if (ab == null)
-                    continue;
-                applicationBeanList.add(ab);
-                if (i++>mLimit)
-                    break;
-            }
-            db.close();
-        }
-        else if (collectionName.equals("you_might_also_like"))
-        {
-            // displays apps with a high rating that are not similar to everything the user has installed
-            final List<ApplicationBean> installedApps = Util.getInstalledApps(mContext);
-            final List<ApplicationBean> appsUserMightLike = new ArrayList<>();
+                else if (collectionName.equals("hiddenapps"))
+                {
+                    applicationBeanList.clear();
+                    applicationBeanList.addAll(Util.getHiddenApps(mContext));
+                }
+                else if (collectionName.startsWith("search:"))
+                {
+                    String searchString = collectionName.replace("search:","");
+                    searchString = "%"+searchString+"%";
+                    AppDatabase db = AppDatabase.get(mContext);
+                    ApplicationBean[] appsInDb = db.appDao().getAllAppsForSearchString(searchString, mLimit, mOffset);
 
-            AppDatabase db = AppDatabase.get(mContext);
-            ApplicationBean[] appsInDb = db.appDao().getHighRated(2000,0);
-            for (ApplicationBean ab: appsInDb ) {
-                appsUserMightLike.add(ab);
-            }
-            db.close();
-
-            // collect similar apps to installed apps with their similarity
-            for (ApplicationBean ab:installedApps) {
-                // remove installed apps from result
-                for (ApplicationBean tmpab: appsUserMightLike) {
-                    if (tmpab.id.equals(ab.id))
-                    {
-                        appsUserMightLike.remove(tmpab);
-                        break;
+                    applicationBeanList.clear();
+                    for (ApplicationBean ab: appsInDb ) {
+                        applicationBeanList.add(ab);
                     }
+                    Collections.sort(applicationBeanList, new AppBeanNameComparator(mContext,
+                            Util.getOrderByColumn(mContext),
+                            Util.getOrderByDirection(mContext).equals("ASC")));
+                    db.close();
                 }
+                else if (collectionName.startsWith("search2:")) // level 2 search
+                {
+                    String searchString = collectionName.replace("search2:","");
+                    searchString = "%"+searchString+"%";
+                    AppDatabase db = AppDatabase.get(mContext);
+                    ApplicationBean[] appsInDb = db.appDao().getAllAppsForSearch2String(searchString, mLimit, mOffset);
 
+                    applicationBeanList.clear();
+                    for (ApplicationBean ab: appsInDb ) {
+                        applicationBeanList.add(ab);
+                    }
+                    Collections.sort(applicationBeanList, new AppBeanNameComparator(mContext,
+                            Util.getOrderByColumn(mContext),
+                            Util.getOrderByDirection(mContext).equals("ASC")));
+                    db.close();
+                }
+                else if (collectionName.startsWith("search3:")) // level 3 search
+                {
+                    String searchString = collectionName.replace("search3:","");
+                    searchString = "%"+searchString+"%";
+                    AppDatabase db = AppDatabase.get(mContext);
+                    ApplicationBean[] appsInDb = db.appDao().getAllAppsForSearch3String(searchString, mLimit, mOffset);
 
-                // remove neighbours of installed apps from result
-                final List<Pair<String, Integer>> neighboursWithSimilarity = ab.getNeighboursWithSimilarity();
-                for (Pair<String, Integer> p:neighboursWithSimilarity) {
-                    final String papp = p.first;
-                    for (ApplicationBean tmpab: appsUserMightLike) {
-                        if (tmpab.id.equals(papp))
+                    applicationBeanList.clear();
+                    for (ApplicationBean ab: appsInDb ) {
+                        applicationBeanList.add(ab);
+                    }
+                    Collections.sort(applicationBeanList, new AppBeanNameComparator(mContext,
+                            Util.getOrderByColumn(mContext),
+                            Util.getOrderByDirection(mContext).equals("ASC")));
+                    db.close();
+                }
+                else if (collectionName.startsWith("author:"))
+                {
+                    String au = collectionName.replace("author:","");
+                    AppDatabase db = AppDatabase.get(mContext);
+                    ApplicationBean[] appsInDb = db.appDao().getAppsByAuthor(au, mLimit, mOffset);
+
+                    applicationBeanList.clear();
+                    for (ApplicationBean ab: appsInDb ) {
+                        applicationBeanList.add(ab);
+                    }
+                    db.close();
+                }
+                else if (collectionName.startsWith("similar:"))
+                {
+                    String appToCheck = collectionName.replace("similar:","");
+                    AppDatabase db = AppDatabase.get(mContext);
+                    final ApplicationBean applicationBean = db.appDao().getApplicationBean(appToCheck);
+                    ApplicationBean[] appsInDb = db.appDao().getSomeApplicationBeans(applicationBean.getNeighbours());
+
+                    applicationBeanList.clear();
+                    for (ApplicationBean ab: appsInDb ) {
+                        applicationBeanList.add(ab);
+                    }
+                    db.close();
+                }
+                else if (collectionName.startsWith("similar_ordered:"))
+                {
+                    String appToCheck = collectionName.replace("similar_ordered:","");
+                    AppDatabase db = AppDatabase.get(mContext);
+                    final ApplicationBean applicationBean = db.appDao().getApplicationBean(appToCheck);
+                    final List<String> neighbours = applicationBean.getNeighbours();
+                    applicationBeanList.clear();
+                    for (String n :neighbours) {
+                        final ApplicationBean ab = db.appDao().getApplicationBean(n);
+                        if (ab != null)
                         {
-                            appsUserMightLike.remove(tmpab);
-                            break;
+                            applicationBeanList.add(ab);
                         }
                     }
+                    db.close();
                 }
-            }
+                else if (collectionName.equals("similar_to_my_apps"))
+                {
+                    final List<ApplicationBean> installedApps = Util.getInstalledApps(mContext);
+                    Map<String,Integer> simMap = new HashMap<>();
 
-            applicationBeanList.clear();
-            int i = 0;
+                    // collect similar apps to installed apps with their similarity
+                    for (ApplicationBean ab:installedApps) {
+                        final List<Pair<String, Integer>> neighboursWithSimilarity = ab.getNeighboursWithSimilarity();
+                        for (Pair<String, Integer> p:neighboursWithSimilarity) {
+                            final String papp = p.first;
+                            final Integer psim = p.second;
+                            if (simMap.containsKey(papp))
+                            {
+                                int i = simMap.get(papp);
+                                i += psim;
+                                simMap.put(papp, i);
+                            }
+                            else
+                            {
+                                simMap.put(papp, psim);
+                            }
+                        }
+                    }
 
-            for (ApplicationBean tmpab: appsUserMightLike) {
-                applicationBeanList.add(tmpab);
-                if (i++>mLimit)
-                    break;
-            }
-        }
-        else if (collectionName.startsWith("cat:"))
-        {
-            String cat = collectionName.replace("cat:","");
-            AppDatabase db = AppDatabase.get(mContext);
-            ApplicationBean[] appsInDb = db.appDao().getAllAppsForCategory(cat, mLimit, mOffset);
+                    // get data out of simmap, order by int value and remove apps that are already installed
+                    final List<Map.Entry<String, Integer>> sortedSimList = MapUtil.sortByValueToList(simMap,true);
+                    applicationBeanList.clear();
+                    AppDatabase db = AppDatabase.get(mContext);
+                    int i = 0;
+                    for (Map.Entry<String, Integer> e :sortedSimList) {
+                        // check if app is not already installed
+                        if (Util.isAppInstalled(mContext, e.getKey()))
+                        {
+                            continue;
+                        }
+                        if (e.getValue() <2)
+                            continue;
+                        ApplicationBean ab = db.appDao().getApplicationBean(e.getKey());
+                        if (ab == null)
+                            continue;
+                        applicationBeanList.add(ab);
+                        if (i++>mLimit)
+                            break;
+                    }
+                    db.close();
+                }
+                else if (collectionName.equals("you_might_also_like"))
+                {
+                    // displays apps with a high rating that are not similar to everything the user has installed
+                    final List<ApplicationBean> installedApps = Util.getInstalledApps(mContext);
+                    final List<ApplicationBean> appsUserMightLike = new ArrayList<>();
 
-            applicationBeanList.clear();
-            for (ApplicationBean ab: appsInDb ) {
-                applicationBeanList.add(ab);
-            }
-            db.close();
-        }
-        else if (collectionName.startsWith("tag:"))
-        {
-            String tag = collectionName.replace("tag:","");
-            AppDatabase db = AppDatabase.get(mContext);
-            ApplicationBean[] appsInDb = db.appDao().getAllAppsForTag(tag, mLimit, mOffset);
+                    AppDatabase db = AppDatabase.get(mContext);
+                    ApplicationBean[] appsInDb = db.appDao().getHighRated(2000,0);
+                    for (ApplicationBean ab: appsInDb ) {
+                        appsUserMightLike.add(ab);
+                    }
+                    db.close();
 
-            applicationBeanList.clear();
-            for (ApplicationBean ab: appsInDb ) {
-                applicationBeanList.add(ab);
+                    // collect similar apps to installed apps with their similarity
+                    for (ApplicationBean ab:installedApps) {
+                        // remove installed apps from result
+                        for (ApplicationBean tmpab: appsUserMightLike) {
+                            if (tmpab.id.equals(ab.id))
+                            {
+                                appsUserMightLike.remove(tmpab);
+                                break;
+                            }
+                        }
+
+
+                        // remove neighbours of installed apps from result
+                        final List<Pair<String, Integer>> neighboursWithSimilarity = ab.getNeighboursWithSimilarity();
+                        for (Pair<String, Integer> p:neighboursWithSimilarity) {
+                            final String papp = p.first;
+                            for (ApplicationBean tmpab: appsUserMightLike) {
+                                if (tmpab.id.equals(papp))
+                                {
+                                    appsUserMightLike.remove(tmpab);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    applicationBeanList.clear();
+                    int i = 0;
+
+                    for (ApplicationBean tmpab: appsUserMightLike) {
+                        applicationBeanList.add(tmpab);
+                        if (i++>mLimit)
+                            break;
+                    }
+                }
+                else if (collectionName.startsWith("cat:"))
+                {
+                    String cat = collectionName.replace("cat:","");
+                    AppDatabase db = AppDatabase.get(mContext);
+                    ApplicationBean[] appsInDb = db.appDao().getAllAppsForCategory(cat, mLimit, mOffset);
+
+                    applicationBeanList.clear();
+                    for (ApplicationBean ab: appsInDb ) {
+                        applicationBeanList.add(ab);
+                    }
+                    db.close();
+                }
+                else if (collectionName.startsWith("tag:"))
+                {
+                    String tag = collectionName.replace("tag:","");
+                    AppDatabase db = AppDatabase.get(mContext);
+                    ApplicationBean[] appsInDb = db.appDao().getAllAppsForTag(tag, mLimit, mOffset);
+
+                    applicationBeanList.clear();
+                    for (ApplicationBean ab: appsInDb ) {
+                        applicationBeanList.add(ab);
+                    }
+                    db.close();
+                }
+                isProcessing = false;
             }
-            db.close();
-        }
+        });
+
     }
 
     public List<ApplicationBean> getApplicationBeanList() {
+        while (isProcessing)
+        {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         return applicationBeanList;
     }
 

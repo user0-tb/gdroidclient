@@ -91,6 +91,7 @@
     <string name="file_browser">File Browser</string>
     <string name="gallery">Gallery</string>
     <string name="launcher">Launcher</string>
+    <string name="mastodon_client">Mastodon Client</string>
     <string name="music_player">Music Player</string>
     <string name="shopping_list">Shopping List</string>
     <string name="text_editor">Text Editor</string>

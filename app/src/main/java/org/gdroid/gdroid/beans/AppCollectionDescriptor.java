@@ -38,10 +38,22 @@ public class AppCollectionDescriptor implements Comparable<AppCollectionDescript
     private final int mLimit;
     private final int mOffset;
     private final String localisedHeadline;
+    private AppCollectionAdapter adapterToBeNotifiedLater;
     private Context mContext;
 
     private String name;
     private List<ApplicationBean> applicationBeanList;
+
+    /**
+     *
+     * @param context
+     * @param name
+     * @param adapterToBeNotifiedLater Can be set so one result is return right away, and another one later as an update. after an AsyncTask.
+     */
+    public AppCollectionDescriptor(Context context, String name, AppCollectionAdapter adapterToBeNotifiedLater) {
+        this(context,name, 12);
+        this.adapterToBeNotifiedLater = adapterToBeNotifiedLater;
+    }
 
     public AppCollectionDescriptor(Context context, String name) {
         this(context,name, 12);
@@ -58,15 +70,15 @@ public class AppCollectionDescriptor implements Comparable<AppCollectionDescript
         applicationBeanList = new ArrayList<>();
         setName(name);
         this.localisedHeadline = AppCollectionAdapter.getHeadlineForCatOrTag(mContext, name);
+        updateAppsInCollection();
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
-        updateAppsInCollection();
     }
 
     public void updateAppsInCollection() {
@@ -119,7 +131,13 @@ public class AppCollectionDescriptor implements Comparable<AppCollectionDescript
         else if (collectionName.equals("recently_commented"))
         {
             applicationBeanList.clear();
-            applicationBeanList.addAll(Util.getRecentlyCommentedApps(mContext,mLimit));
+//            applicationBeanList.addAll(Util.getRecentlyCommentedAppsQuick(mContext,mLimit));
+            Util.getRecentlyCommentedAppsAsync(mContext, mLimit, applicationBeanList, new Runnable() {
+                @Override
+                public void run() {
+                    notifyAdapter();
+                }
+            });
         }
         else if (collectionName.equals("starred"))
         {
@@ -347,6 +365,19 @@ public class AppCollectionDescriptor implements Comparable<AppCollectionDescript
 
     public List<ApplicationBean> getApplicationBeanList() {
         return applicationBeanList;
+    }
+
+    private void notifyAdapter()
+    {
+        if (adapterToBeNotifiedLater != null)
+        {
+            Util.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapterToBeNotifiedLater.notifyDataSetChanged();
+                }
+            });
+        }
     }
 
     public String getLocalisedHeadline() {

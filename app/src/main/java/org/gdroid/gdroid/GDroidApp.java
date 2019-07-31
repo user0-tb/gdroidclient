@@ -27,6 +27,7 @@ import org.acra.ReportField;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.gdroid.gdroid.pref.Pref;
+import org.gdroid.gdroid.taskmanagement.TaskManager;
 
 import java.util.List;
 
@@ -61,6 +62,7 @@ public class GDroidApp extends Application {
         instance = this;
 
         Pref.setup(this);
+        TaskManager.setup(this);
         Pref preferences = Pref.get();
 
         if (preferences.sendCrashReports()) {

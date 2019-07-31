@@ -382,7 +382,7 @@ public class MainActivity extends AppCompatActivity
                     appCollectionAdapter.notifyDataSetChanged();
                 }
             });
-            appCollectionDescriptorList.add(new AppCollectionDescriptor(context, "recently_commented"));
+            appCollectionDescriptorList.add(new AppCollectionDescriptor(context, "recently_commented",appCollectionAdapter));
             appCollectionDescriptorList.add(new AppCollectionDescriptor(context, "random_apps"));
 //            AppCollectionDescriptor a7 = new AppCollectionDescriptor(context, "popular apps");
 //            appCollectionDescriptorList.add(a7);
@@ -435,21 +435,23 @@ public class MainActivity extends AppCompatActivity
                     final String screenName = "home";
                     Util.setLastMenuItem(getApplicationContext(), screenName);
                     setUpCollectionCards();
-                    AsyncTask.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            prepareAppCollections(screenName);
-                            if (Util.getLastMenuItem(getApplicationContext()).equals(screenName)) // only if selected tab still the same
-                            {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        appBeanAdapter.notifyDataSetChanged();
-                                    }
-                                });
-                            }
-                        }
-                    });
+                    prepareAppCollections(screenName);
+                    appBeanAdapter.notifyDataSetChanged();
+//                    AsyncTask.execute(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            prepareAppCollections(screenName);
+//                            if (Util.getLastMenuItem(getApplicationContext()).equals(screenName)) // only if selected tab still the same
+//                            {
+//                                runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        appBeanAdapter.notifyDataSetChanged();
+//                                    }
+//                                });
+//                            }
+//                        }
+//                    });
                     return true;
                 }
                 case R.id.navigation_categories:

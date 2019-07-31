@@ -28,6 +28,7 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 
+import org.gdroid.gdroid.Util;
 import org.gdroid.gdroid.adapters.AppCollectionAdapter;
 import org.gdroid.gdroid.MainActivity;
 import org.gdroid.gdroid.R;
@@ -185,8 +186,13 @@ public class DownloadJaredJsonTask extends AsyncTask<String, Void, List<Applicat
 
             // update the UI after DB has been updated (on the first 2 tabs)
             if (mAppCollectionAdapter != null) {
-                for (AppCollectionDescriptor acd : mAppCollectionAdapter.getAppCollectionDescriptorList()) {
-                    acd.updateAppsInCollection();
+                for (final AppCollectionDescriptor acd : mAppCollectionAdapter.getAppCollectionDescriptorList()) {
+                    Util.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            acd.updateAppsInCollection();
+                        }
+                    });
                 }
             }
 

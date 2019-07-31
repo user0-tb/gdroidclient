@@ -52,6 +52,8 @@ import org.gdroid.gdroid.installer.DefaultInstaller;
 import org.gdroid.gdroid.installer.Installer;
 import org.gdroid.gdroid.installer.RootInstaller;
 import org.gdroid.gdroid.pref.Pref;
+import org.gdroid.gdroid.taskmanagement.DataDescriptor;
+import org.gdroid.gdroid.taskmanagement.TaskManager;
 import org.gdroid.gdroid.tasks.DownloadCommentsTask;
 import org.gdroid.gdroid.tasks.DownloadCommentsTask2;
 
@@ -721,6 +723,7 @@ public class Util {
         });
 
         downloadCommentsTask.execute(Const.HASHTAG_APP_COMMENTS);
+        TaskManager.addOrReplaceTask(DataDescriptor.RecentlyCommentedApps, downloadCommentsTask);
 
     }
 

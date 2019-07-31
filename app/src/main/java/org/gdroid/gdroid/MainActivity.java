@@ -437,21 +437,6 @@ public class MainActivity extends AppCompatActivity
                     setUpCollectionCards();
                     prepareAppCollections(screenName);
                     appBeanAdapter.notifyDataSetChanged();
-//                    AsyncTask.execute(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            prepareAppCollections(screenName);
-//                            if (Util.getLastMenuItem(getApplicationContext()).equals(screenName)) // only if selected tab still the same
-//                            {
-//                                runOnUiThread(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        appBeanAdapter.notifyDataSetChanged();
-//                                    }
-//                                });
-//                            }
-//                        }
-//                    });
                     return true;
                 }
                 case R.id.navigation_categories:

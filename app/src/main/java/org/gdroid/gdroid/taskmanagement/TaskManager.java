@@ -39,6 +39,11 @@ public class TaskManager {
         instance.app = gDroidApp;
     }
 
+    /**
+     * Add task. replaces and cancles existing
+     * @param dd
+     * @param t
+     */
     public static void addOrReplaceTask(DataDescriptor dd, AsyncTask t)
     {
         AsyncTask existing = instance.taskMap.get(dd);

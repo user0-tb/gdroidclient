@@ -356,7 +356,7 @@ public class MainActivity extends AppCompatActivity
             String[] collections = new String[] {"newest_apps", "recently_updated", "highly_rated", "similar_to_my_apps", "you_might_also_like"};
             for (String c: collections)
             {
-                appCollectionDescriptorList.add(new AppCollectionDescriptor(context, c));
+                appCollectionDescriptorList.add(new AppCollectionDescriptor(context, c, appCollectionAdapter));
                 Util.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -400,7 +400,7 @@ public class MainActivity extends AppCompatActivity
                     appCollectionAdapter.notifyDataSetChanged();
                 }
             });
-            appCollectionDescriptorList.add(new AppCollectionDescriptor(context, "random_apps"));
+            appCollectionDescriptorList.add(new AppCollectionDescriptor(context, "random_apps",appCollectionAdapter));
         } else if (screen.equals("categories")) {
             appCollectionDescriptorList.clear();
             AppDatabase db = AppDatabase.get(context);
@@ -541,7 +541,7 @@ public class MainActivity extends AppCompatActivity
                     Util.runInBackground(new Runnable() {
                         @Override
                         public void run() {
-                            AppCollectionDescriptor myAppsCollectionDescriptor = new AppCollectionDescriptor(getApplicationContext(), screenName);
+                            AppCollectionDescriptor myAppsCollectionDescriptor = new AppCollectionDescriptor(getApplicationContext(), screenName,appBeanAdapter);
                             if (Util.getLastMenuItem(getApplicationContext()).equals(screenName)) // only if selected tab still the same
                             {
                                 appBeanList.clear();

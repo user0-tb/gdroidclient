@@ -19,6 +19,7 @@
 package org.gdroid.gdroid.beans;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 
 import org.gdroid.gdroid.adapters.AppCollectionAdapter;
@@ -38,7 +39,7 @@ public class AppCollectionDescriptor implements Comparable<AppCollectionDescript
     private final int mLimit;
     private final int mOffset;
     private final String localisedHeadline;
-    private AppCollectionAdapter adapterToBeNotifiedLater;
+    private RecyclerView.Adapter adapterToBeNotifiedLater;
     private Context mContext;
 
     private String name;
@@ -51,7 +52,7 @@ public class AppCollectionDescriptor implements Comparable<AppCollectionDescript
      * @param name
      * @param adapterToBeNotifiedLater Can be set so one result is return right away, and another one later as an update. after an AsyncTask.
      */
-    public AppCollectionDescriptor(Context context, String name, AppCollectionAdapter adapterToBeNotifiedLater) {
+    public AppCollectionDescriptor(Context context, String name, RecyclerView.Adapter adapterToBeNotifiedLater) {
         this(context,name, 12);
         this.adapterToBeNotifiedLater = adapterToBeNotifiedLater;
     }
@@ -373,14 +374,14 @@ public class AppCollectionDescriptor implements Comparable<AppCollectionDescript
     }
 
     public List<ApplicationBean> getApplicationBeanList() {
-        while (isProcessing)
-        {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+//        while (isProcessing)
+//        {
+//            try {
+//                Thread.sleep(500);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
         return applicationBeanList;
     }
 

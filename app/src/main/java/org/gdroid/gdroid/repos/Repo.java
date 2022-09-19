@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Andreas Redmer <ar-gdroid@abga.be>
+ * Copyright (C) 2019-2022 Andreas Redmer <ar-gdroid@abga.be>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ public class Repo {
     public String getBaseUrl()
     {
 //        return "https://f-droid.org/repo";
-        return "https://fdroid.tetaneutral.net/fdroid/repo";
+        return "https://ftp.lysator.liu.se/pub/fdroid/repo/"; // hopefully best mirror
     }
 
     public String getAppIconUrlIfValid(ApplicationBean ab)

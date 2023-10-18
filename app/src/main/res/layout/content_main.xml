@@ -69,7 +69,7 @@
             android:text="@string/search_harder"
             android:background="@drawable/rounded_corner_button"
             android:layout_margin="10dp"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/daynight_textColor"
             android:minHeight="30dp"
             android:maxHeight="30dp"
             />
@@ -82,7 +82,7 @@
             android:text="@string/search_even_harder"
             android:background="@drawable/rounded_corner_button"
             android:layout_margin="10dp"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/daynight_textColor"
             android:minHeight="30dp"
             android:maxHeight="30dp"
             />
@@ -95,7 +95,7 @@
             android:text="@string/download_all_updates"
             android:background="@drawable/rounded_corner_button"
             android:layout_margin="10dp"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/daynight_textColor"
             android:minHeight="30dp"
             android:maxHeight="30dp"
             />

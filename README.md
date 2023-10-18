@@ -1,20 +1,7 @@
-[![Translation status](https://gitlab.com/gdroid/gdroidclient/badges/master/build.svg)](https://gitlab.com/gdroid/gdroidclient/builds)
-[![Translation status](https://img.shields.io/badge/android-%3E%3D2.3-blue.svg)](https://gitlab.com/gdroid/gdroidclient/blob/master/README.md)
-[![Translation status](https://img.shields.io/badge/license-GPL3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
-[![Translation status](https://img.shields.io/f-droid/v/org.gdroid.gdroid.svg)](https://f-droid.org/en/packages/org.gdroid.gdroid/)
-[![Translation status](https://hosted.weblate.org/widgets/g-droid/-/translations/svg-badge.svg)](https://hosted.weblate.org/engage/g-droid/?utm_source=widget)
 
 # What is this app
 
-G-Droid can browse the free F-Droid app-repository. It is an alternative client to the F-Droid client. You can follow the project website for some updates on [Mastodon](https://mastodon.technology/invite/DYmzCBER).
-
-# Screenshots
-
-<img src="fastlane/metadata/android/en-AU/images/phoneScreenshots/s1.png"  width="320">
-<img src="fastlane/metadata/android/en-AU/images/phoneScreenshots/s2.png"  width="320">
-<img src="fastlane/metadata/android/en-AU/images/phoneScreenshots/s3.png"  width="320">
-<img src="fastlane/metadata/android/en-AU/images/phoneScreenshots/s4.png"  width="320">
-<img src="fastlane/metadata/android/en-AU/images/phoneScreenshots/s5.png"  width="320">
+GF-Droid can browse the free F-Droid app-repository. It is an alternative client to the F-Droid client based on G-Droid. 
 
 # Additional features compared to F-Droid
 
@@ -70,26 +57,6 @@ G-Droid can browse the free F-Droid app-repository. It is an alternative client 
 
 * INTERNET: to download the app-metadata and the apps
 * WRITE_EXTERNAL_STORAGE: To store the downloaded apps temporarily (permission only on older Android versions enforced)
-
-# Translating
-
-The app is translated using [Weblate](https://hosted.weblate.org/projects/g-droid/translations/). Follow [these instructions](https://hosted.weblate.org/engage/g-droid/) if you would like to contribute.
-
-While you can also send merge requests or patches modifying the translations, Weblate is a much better way to go. Use Weblate - it applies a series of fixes and suggestions, plus it keeps track of modifications and fuzzy translations. Applying translations manually skips all of the fixes and checks, and overrides the fuzzy state of strings.
-
-[![Translation status](https://hosted.weblate.org/widgets/g-droid/-/translations/287x66-grey.png)](https://hosted.weblate.org/engage/g-droid/?utm_source=widget)
-
-[![Translation status](https://hosted.weblate.org/widgets/g-droid/-/translations/multi-auto.svg)](https://hosted.weblate.org/engage/g-droid/?utm_source=widget)
-
-# Explanation of metrics
-
-## Stars on Github/Gitlab/Sourceforge:
-
-The stars are being counted for all apps from the same source and then normalised twice. The day of the first release (on F-Droid) will be taken as creation date of the app.
-The number of stars will be divided by the number of days the app exists. So the new metric is 'stars per day'.
-The stars per day are being compared to all other apps. The top 20% of all app will receive 100% for this metric. All apps below that will get a smaller percentage.
-
-All apps in the top 20% of the list will receive 100% for this metric. All other apps will scale down from there on.
 
 ## Up-To-Date Percentage:
 
@@ -158,26 +125,3 @@ The app icons and all other images (like screenshots) are being cached. There ha
 If you have this error, please check if you have an 'optimizer' app running in the background that deletes the cache of some apps all the time. If so: disable this behaviour.
 Apart from that, the Android OS will use free space on your device to cache the app icons in G-Droid. This happens automatically with the Glide library.
 
-# Donate
-
-Cash donations are not accepted. You can buy the author of this app a coffee if you have some spare cryptocurrencies.
-
-* BTC/BCH/BTG/etc: 1J2bbhJYksSjeynGGhuSPN9aTEaxiGm4nR
-* BTC Bech32: bc1qgshj3mtju02sg9ymse9cksfjdjh5gp0204w3zj
-* DASH: XbLRt5imEHc72KmhvC7V9v8f9NmYrmvweS
-* ETH: 0a6604dc5000c57e80f824601535db216e77482f
-* XMR: 4AffoFbFhfGZdBeMaQYSCMTURacM3qZYxKHQeLx8xkiLUjzk2GPzjCrNU5uquXEsEL6wcN8b5ULg5JdDaQfuQRkUJs6xx3f
-
-*Note: These addresses are taken from the original autors website (http://super-sm.art/). They are cryptographically signed, with the same key, that signed the git commits of this software project. Feel free to verify the GPG signatures so you can be sure, that you donation goes to the person, who actually commited the code of this software.*
-
-How much to donate? 🙂
-
-1. Go to your nearest coffee shop (or bar [or cafe in the Netherlands]).
-2. Get the price for a regular coffee (or beer). No surgar.
-3. Optionally multiply by 2. Thanks.
-4. Convert the price into a crypto currency mentioned above. 
-5. Donate the resulting value.
-
-✌️
-
-See also: [DONATE](DONATE.md) file

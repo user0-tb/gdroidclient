@@ -30,7 +30,7 @@ import org.gdroid.gdroid.pref.Pref;
 
 import java.util.List;
 
-@ReportsCrashes(mailTo = "incoming+gdroid-gdroidclient-9250542-issue-@incoming.gitlab.com",
+@ReportsCrashes(mailTo = "frauguelle@gmail.com",
         mode = ReportingInteractionMode.DIALOG,
         reportDialogClass = org.gdroid.gdroid.acra.CrashReportActivity.class,
         reportSenderFactoryClasses = org.gdroid.gdroid.acra.CrashReportSenderFactory.class,

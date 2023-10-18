@@ -25,3 +25,9 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew assembleDebug
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.3
+      with:
+        name: app
+        path: /home/runner/work/gfdroid/gfdroid/app/build/outputs/apk/debug/
+        
